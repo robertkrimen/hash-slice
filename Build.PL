@@ -9,8 +9,14 @@ my $builder = Module::Build->new(
     dist_version_from   => 'lib/Hash/Slice.pm',
     build_requires => {
         'Test::More' => 0,
+        'Test::Deep' => 0,
+    },
+    recommends => {
+        Clone => 0,
+        Storable => 0,
     },
     add_to_cleanup      => [ 'Hash-Slice-*' ],
+    create_makefile_pl => 'traditional',
 );
 
 $builder->create_build_script();
