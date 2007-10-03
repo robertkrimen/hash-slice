@@ -10,6 +10,10 @@ my $builder = Module::Build->new(
     build_requires => {
         'Test::More' => 0,
         'Test::Deep' => 0,
+        
+    },
+    requires => {
+        Carp => 0,
     },
     recommends => {
         Clone => 0,

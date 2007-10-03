@@ -19,6 +19,10 @@ cmp_deeply($slice => { a => 1, c => 3 });
 $slice = slice \%hash, qw/a c/, [ e => qw/g h/, [ i => qw/l/ ] ];
 cmp_deeply($slice => { a => 1, c => 3, e => { g => 6, h => 7, i => { l => 10 } } });
 
+%hash = (qw/a 1 b 2 c 3 d 4/, e => { f => 3, g => 5 });
+$slice = Hash::Slice::slice \%hash, qw/a c/, [ e => qw/f g/];
+cmp_deeply($slice => { a => 1, c => 3, e => { f => 3, g => 5 } });
+
 if (eval { require Clone }) {
     %hash = (qw/a 1 b 2 c 3 d 4/, e => { f => 5, g => 6 });
     $slice = Hash::Slice::clone_slice \%hash, qw/a c e/;

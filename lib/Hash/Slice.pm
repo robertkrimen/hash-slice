@@ -9,11 +9,11 @@ Hash::Slice - Make a hash from a deep slice of another hash
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 SYNOPSIS
 
@@ -55,11 +55,17 @@ Hash::Slice lets you easily make a deep slice of a hash, specifically a hash con
 
 =cut
 
-use Exporter qw/import/;
-use vars qw/@EXPORT_OK/;
+use vars qw/@ISA @EXPORT_OK/;
+@ISA = qw/Exporter/;
 @EXPORT_OK = qw/slice clone_slice cslice dclone_slice dcslice/;
 
+use Carp;
+
+=head1 FUNCTIONS
+
 =head2 $slice = slice $hash, @cut
+
+=head2 %slice = slice $hash, @cut
 
 Make a copy of $hash according to @cut.
 
@@ -82,12 +88,20 @@ sub slice($@) {
             my ($name, @cut) = @$name;
             $slice{$name} = slice $hash->{$name}, @cut if exists $hash->{$name};
         }
+        elsif (ref $name eq "HASH") {
+
+            croak "Can't use a HASH ($name) in a slice() \@cut";
+
+            while (my ($name, $cut) = each %$name) {
+                $slice{$name} = slice $hash->{$name}, $cut if exists $hash->{$name};
+            }
+        }
         else {
             $slice{$name} = $hash->{$name} if exists $hash->{$name};
         }
     }
 
-    return \%slice;
+    return wantarray ? %slice : \%slice;
 }
 
 =head2 $slice = cslice $hash, @cut
