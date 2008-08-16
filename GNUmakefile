@@ -1,14 +1,23 @@
-.PHONY: all test time clean distclean dist build distcheck upload distupload
+.PHONY: all test time clean distclean dist distcheck upload distupload
 
 all: test
 
-build: Build
-	./$<
+dist:
+	rm -rf inc META.y*ml
+	perl Makefile.PL
+	$(MAKE) -f Makefile dist
 
-dist distclean test tardist: Build
-	./Build $@
+install distclean tardist: Makefile
+	$(MAKE) -f $< $@
 
-Build: Build.PL
+test: Makefile
+	TEST_RELEASE=1 $(MAKE) -f $< $@
+
+Makefile: Makefile.PL
 	perl $<
 
 clean: distclean
+
+reset: clean
+	perl Makefile.PL
+	$(MAKE) test

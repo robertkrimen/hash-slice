@@ -9,11 +9,11 @@ Hash::Slice - Make a hash from a deep slice of another hash
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 =head1 SYNOPSIS
 
@@ -59,7 +59,7 @@ use vars qw/@ISA @EXPORT_OK/;
 @ISA = qw/Exporter/;
 @EXPORT_OK = qw/slice clone_slice cslice dclone_slice dcslice/;
 
-use Carp;
+use Carp::Clan;
 
 =head1 FUNCTIONS
 
@@ -142,13 +142,17 @@ sub dclone_slice($@) {
 }
 *dcslice = \&dclone_slice;
 
-=head1 SEE ALSO
-
-Clone, Storable
-
 =head1 AUTHOR
 
 Robert Krimen, C<< <rkrimen at cpan.org> >>
+
+=head1 SOURCE
+
+You can contribute or fork this project via GitHub:
+
+L<http://github.com/robertkrimen/hash-slice/tree/master>
+
+    git clone git://github.com/robertkrimen/hash-slice.git Hash-Slice
 
 =head1 BUGS
 
